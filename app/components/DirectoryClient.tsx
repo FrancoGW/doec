@@ -186,11 +186,108 @@ export default function DirectoryClient({ empresas, error }: Props) {
       </div>
 
       <section className="container" id="filtros">
-        <div className="directory-layout">
-          <div className="directory-content">
-            <div className="directory-header">
-              <h2 className="section-title">Directorio de empresas</h2>
-              <button className="btn-outline filters-trigger" onClick={() => setShowFilters(true)}>
+        <div className="flex gap-8">
+          {/* Sidebar Filtros - Desktop */}
+          <aside className="hidden md:block w-80 flex-shrink-0">
+            <div className="bg-white rounded-lg p-6 shadow-sm sticky top-24">
+              <h3 className="text-lg font-bold text-gray-800 mb-4">Filtros</h3>
+              
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3">Categorías</h4>
+                  <ul className="space-y-2">
+                    <li>
+                      <button
+                        className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors flex items-center gap-2 ${
+                          sectorSeleccionado === '' 
+                            ? 'bg-green-50 text-[#0b6623] font-medium' 
+                            : 'text-gray-600 hover:bg-gray-50'
+                        }`}
+                        onClick={() => setSectorSeleccionado('')}
+                      >
+                        <span className={`w-2 h-2 rounded-full border-2 ${
+                          sectorSeleccionado === '' 
+                            ? 'bg-[#0b6623] border-[#0b6623]' 
+                            : 'border-gray-300'
+                        }`}></span>
+                        <span>Todas las categorías</span>
+                      </button>
+                    </li>
+                    {sectoresUnicos.map((sector) => (
+                      <li key={sector}>
+                        <button
+                          className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors flex items-center gap-2 ${
+                            sectorSeleccionado === sector 
+                              ? 'bg-green-50 text-[#0b6623] font-medium' 
+                              : 'text-gray-600 hover:bg-gray-50'
+                          }`}
+                          onClick={() => setSectorSeleccionado(sector)}
+                        >
+                          <span className={`w-2 h-2 rounded-full border-2 ${
+                            sectorSeleccionado === sector 
+                              ? 'bg-[#0b6623] border-[#0b6623]' 
+                              : 'border-gray-300'
+                          }`}></span>
+                          <span>{sector}</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3">Empresas</h4>
+                  <ul className="space-y-2 max-h-96 overflow-y-auto">
+                    <li>
+                      <button
+                        className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors flex items-center gap-2 ${
+                          empresaSeleccionada === '' 
+                            ? 'bg-green-50 text-[#0b6623] font-medium' 
+                            : 'text-gray-600 hover:bg-gray-50'
+                        }`}
+                        onClick={() => setEmpresaSeleccionada('')}
+                      >
+                        <span className={`w-2 h-2 rounded-full border-2 ${
+                          empresaSeleccionada === '' 
+                            ? 'bg-[#0b6623] border-[#0b6623]' 
+                            : 'border-gray-300'
+                        }`}></span>
+                        <span>Todas las empresas</span>
+                      </button>
+                    </li>
+                    {empresasUnicas.map((nombre) => (
+                      <li key={nombre}>
+                        <button
+                          className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors flex items-center gap-2 ${
+                            empresaSeleccionada === nombre 
+                              ? 'bg-green-50 text-[#0b6623] font-medium' 
+                              : 'text-gray-600 hover:bg-gray-50'
+                          }`}
+                          onClick={() => setEmpresaSeleccionada(nombre)}
+                        >
+                          <span className={`w-2 h-2 rounded-full border-2 ${
+                            empresaSeleccionada === nombre 
+                              ? 'bg-[#0b6623] border-[#0b6623]' 
+                              : 'border-gray-300'
+                          }`}></span>
+                          <span>{nombre}</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          {/* Contenido Principal */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-gray-800">Directorio de empresas</h2>
+              <button 
+                className="md:hidden px-4 py-2 border border-[#0b6623] bg-white text-[#0b6623] font-semibold text-sm rounded-md hover:bg-green-50"
+                onClick={() => setShowFilters(true)}
+              >
                 Filtros
               </button>
             </div>
@@ -256,36 +353,63 @@ export default function DirectoryClient({ empresas, error }: Props) {
           </div>
         </div>
 
+        {/* Modal Filtros - Mobile */}
         {showFilters && (
-          <div className="filters-modal">
-            <div className="filters-panel">
-              <div className="filters-panel-header">
-                <h3>Filtros</h3>
-                <button className="filters-close" onClick={() => setShowFilters(false)} aria-label="Cerrar filtros">
+          <div 
+            className="md:hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+            onClick={() => setShowFilters(false)}
+          >
+            <div 
+              className="bg-white rounded-lg w-full max-w-md max-h-[90vh] overflow-y-auto shadow-xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+                <h3 className="text-lg font-bold text-gray-800">Filtros</h3>
+                <button 
+                  className="text-2xl text-gray-500 hover:text-gray-800 w-8 h-8 flex items-center justify-center"
+                  onClick={() => setShowFilters(false)}
+                  aria-label="Cerrar filtros"
+                >
                   ×
                 </button>
               </div>
 
-              <div className="filters-content">
-                <div className="filters-block">
-                  <h4>Categorías</h4>
-                  <ul className="filter-list">
+              <div className="p-6 space-y-6">
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3">Categorías</h4>
+                  <ul className="space-y-2">
                     <li>
                       <button
-                        className={`filter-item ${sectorSeleccionado === '' ? 'active' : ''}`}
+                        className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors flex items-center gap-2 ${
+                          sectorSeleccionado === '' 
+                            ? 'bg-green-50 text-[#0b6623] font-medium' 
+                            : 'text-gray-600 hover:bg-gray-50'
+                        }`}
                         onClick={() => setSectorSeleccionado('')}
                       >
-                        <span className="filter-dot"></span>
+                        <span className={`w-2 h-2 rounded-full border-2 ${
+                          sectorSeleccionado === '' 
+                            ? 'bg-[#0b6623] border-[#0b6623]' 
+                            : 'border-gray-300'
+                        }`}></span>
                         <span>Todas las categorías</span>
                       </button>
                     </li>
                     {sectoresUnicos.map((sector) => (
                       <li key={sector}>
                         <button
-                          className={`filter-item ${sectorSeleccionado === sector ? 'active' : ''}`}
+                          className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors flex items-center gap-2 ${
+                            sectorSeleccionado === sector 
+                              ? 'bg-green-50 text-[#0b6623] font-medium' 
+                              : 'text-gray-600 hover:bg-gray-50'
+                          }`}
                           onClick={() => setSectorSeleccionado(sector)}
                         >
-                          <span className="filter-dot"></span>
+                          <span className={`w-2 h-2 rounded-full border-2 ${
+                            sectorSeleccionado === sector 
+                              ? 'bg-[#0b6623] border-[#0b6623]' 
+                              : 'border-gray-300'
+                          }`}></span>
                           <span>{sector}</span>
                         </button>
                       </li>
@@ -293,25 +417,41 @@ export default function DirectoryClient({ empresas, error }: Props) {
                   </ul>
                 </div>
 
-                <div className="filters-block">
-                  <h4>Empresas</h4>
-                  <ul className="filter-list">
+                <div>
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3">Empresas</h4>
+                  <ul className="space-y-2 max-h-64 overflow-y-auto">
                     <li>
                       <button
-                        className={`filter-item ${empresaSeleccionada === '' ? 'active' : ''}`}
+                        className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors flex items-center gap-2 ${
+                          empresaSeleccionada === '' 
+                            ? 'bg-green-50 text-[#0b6623] font-medium' 
+                            : 'text-gray-600 hover:bg-gray-50'
+                        }`}
                         onClick={() => setEmpresaSeleccionada('')}
                       >
-                        <span className="filter-dot"></span>
+                        <span className={`w-2 h-2 rounded-full border-2 ${
+                          empresaSeleccionada === '' 
+                            ? 'bg-[#0b6623] border-[#0b6623]' 
+                            : 'border-gray-300'
+                        }`}></span>
                         <span>Todas las empresas</span>
                       </button>
                     </li>
                     {empresasUnicas.map((nombre) => (
                       <li key={nombre}>
                         <button
-                          className={`filter-item ${empresaSeleccionada === nombre ? 'active' : ''}`}
+                          className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors flex items-center gap-2 ${
+                            empresaSeleccionada === nombre 
+                              ? 'bg-green-50 text-[#0b6623] font-medium' 
+                              : 'text-gray-600 hover:bg-gray-50'
+                          }`}
                           onClick={() => setEmpresaSeleccionada(nombre)}
                         >
-                          <span className="filter-dot"></span>
+                          <span className={`w-2 h-2 rounded-full border-2 ${
+                            empresaSeleccionada === nombre 
+                              ? 'bg-[#0b6623] border-[#0b6623]' 
+                              : 'border-gray-300'
+                          }`}></span>
                           <span>{nombre}</span>
                         </button>
                       </li>
@@ -320,8 +460,11 @@ export default function DirectoryClient({ empresas, error }: Props) {
                 </div>
               </div>
 
-              <div className="filters-actions">
-                <button className="btn-primary" type="button" onClick={() => setShowFilters(false)}>
+              <div className="sticky bottom-0 bg-white border-t border-gray-200 px-6 py-4">
+                <button 
+                  className="w-full px-6 py-3 bg-[#0b6623] text-white font-semibold rounded-md hover:bg-[#0a5a1f] transition-colors"
+                  onClick={() => setShowFilters(false)}
+                >
                   Aplicar filtros
                 </button>
               </div>

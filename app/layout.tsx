@@ -23,47 +23,40 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body id="top">
-        <header className="site-header">
-          <div className="top-bar">
-            <div className="top-item">
-              <Image src={iconLocation} alt="Dirección" className="top-icon" />
+        <header className="bg-white shadow-sm sticky top-0 z-20 w-full overflow-x-hidden">
+          <div className="flex gap-6 justify-center items-center py-2 px-6 text-sm bg-gray-200 text-gray-700 w-full max-w-full overflow-x-hidden flex-wrap box-border">
+            <div className="inline-flex items-center gap-2 whitespace-nowrap">
+              <Image src={iconLocation} alt="Dirección" className="w-3.5 h-3.5 flex-shrink-0" />
               <span>Yrigoyen 2289, Corrientes Capital, CP 3400</span>
             </div>
-            <div className="top-item">
-              <Image src={iconPhone} alt="Teléfono" className="top-icon" />
+            <div className="inline-flex items-center gap-2 whitespace-nowrap">
+              <Image src={iconPhone} alt="Teléfono" className="w-3.5 h-3.5 flex-shrink-0" />
               <span>+54 379 4474051</span>
             </div>
-            <div className="top-item">
-              <Image src={iconMail} alt="Correo electrónico" className="top-icon" />
+            <div className="inline-flex items-center gap-2 whitespace-nowrap">
+              <Image src={iconMail} alt="Correo electrónico" className="w-3.5 h-3.5 flex-shrink-0" />
               <span>corrientesexporta@inversionycomercio.gob.ar</span>
             </div>
           </div>
 
-          <nav className="main-nav">
-            <div className="brand">
-              <div className="brand-logos">
+          <nav className="flex items-center justify-between gap-10 max-w-6xl mx-auto py-4 px-6 relative w-full box-border">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <Image
                   src={logoCorrientes}
                   alt="Corrientes Exporta"
-                  className="brand-logo"
+                  className="h-[70px] w-auto max-w-full object-contain"
                   priority
                 />
                 <Image
                   src={logoIfe}
                   alt="Instituto de Fomento Empresarial"
-                  className="brand-logo"
+                  className="h-[70px] w-auto max-w-full object-contain"
                   priority
                 />
               </div>
             </div>
             
-            <input type="checkbox" id="nav-toggle" className="nav-toggle" />
-            <label htmlFor="nav-toggle" className="nav-toggle-label" aria-label="Abrir menú">
-              <span></span>
-              <span></span>
-              <span></span>
-            </label>
-
             <NavMenu />
           </nav>
         </header>
