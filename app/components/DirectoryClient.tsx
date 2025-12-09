@@ -91,17 +91,20 @@ export default function DirectoryClient({ empresas, error }: Props) {
         <div className="hero-overlay" />
 
         <div className="hero-content">
-          <p className="hero-kicker">Conectamos tu negocio con el mundo</p>
-          <h1 className="hero-title">
-            Descubrí las oportunidades de exportación de Corrientes
+          <h1 className="hero-title text-white">
+            Descubrí las oportunidades<br />
+            de exportación de Corrientes
           </h1>
-          <p className="hero-subtitle">
-            Te acercamos el directorio más completo de exportadores y servicios de la provincia.
+          <p className="hero-subtitle text-white">
+            Conectamos tu negocio con el mundo a través del directorio más<br />
+            completo de exportadores de la provincia.
           </p>
 
-          <div className="search-card">
-            <h2 className="search-title">Buscar en el Directorio</h2>
+          <div className="mb-4 text-center">
+            <h2 className="text-white text-xl font-bold">Buscar en el Directorio</h2>
+          </div>
 
+          <div className="search-card bg-white/80 backdrop-blur-sm">
             <form className="search-form" onSubmit={(e) => e.preventDefault()}>
               <div className="search-row">
                 <label className="field">

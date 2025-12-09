@@ -319,20 +319,21 @@
 
 .hero-title {
   font-size: 2.5rem;
-  max-width: 18ch;
   line-height: 1.15;
   margin-bottom: 1rem;
+  color: #ffffff;
 }
 
 .hero-subtitle {
-  max-width: 38ch;
   font-size: 0.98rem;
   line-height: 1.6;
   margin-bottom: 2.5rem;
+  color: #ffffff;
 }
 
 .search-card {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
   border-radius: 16px;
   box-shadow: 0 18px 45px rgba(15, 23, 42, 0.35);
   padding: 1.75rem 1.75rem 1.5rem;
