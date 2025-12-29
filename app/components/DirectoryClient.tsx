@@ -1,11 +1,11 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import Image from 'next/image';
-import aliadosEstrategicos from '../assets/aliados-estrategicos-3.png';
-import logoIfeFondo from '../assets/Logo IFE (jpg con fondo).svg';
-import logoCorrExportaBanner from '../assets/logo-corrientes-exporta-transp.svg';
-import logoMinisterio from '../assets/untitled.png';
+import logoCorrientesSomosTodos from '../assets/Corrientes_Somos_Todos.png';
+import logoIfeFondo from '../assets/I.F.E.png';
+import logoCorrExportaBanner from '../assets/Corrientes_Exporta .png';
+import logoMinisterio from '../assets/Ministerio_Produccion.png';
 
 interface Empresa {
   id: number;
@@ -17,6 +17,7 @@ interface Empresa {
   ciudad?: string;
   web?: string;
   sector?: string;
+  pa?: string;
   [key: string]: any;
 }
 
@@ -30,6 +31,19 @@ export default function DirectoryClient({ empresas, error }: Props) {
   const [empresaSeleccionada, setEmpresaSeleccionada] = useState('');
   const [sectorSeleccionado, setSectorSeleccionado] = useState('');
   const [showFilters, setShowFilters] = useState(false);
+  const [empresasAMostrar, setEmpresasAMostrar] = useState(10);
+
+  // Función para parsear los productos desde el campo pa
+  const parseProductos = (pa: string | undefined): string[] => {
+    if (!pa) return [];
+    try {
+      const parsed = JSON.parse(pa);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      // Si no es JSON válido, intentar como string simple
+      return pa ? [pa] : [];
+    }
+  };
 
   const empresasUnicas = useMemo(
     () =>
@@ -69,6 +83,32 @@ export default function DirectoryClient({ empresas, error }: Props) {
       return true;
     });
   }, [empresas, empresaSeleccionada, sectorSeleccionado, query]);
+
+  // Resetear el contador cuando cambien los filtros
+  useEffect(() => {
+    setEmpresasAMostrar(10);
+  }, [query, empresaSeleccionada, sectorSeleccionado]);
+
+  // Empresas a mostrar según el contador
+  const empresasMostradas = useMemo(() => {
+    const sinFiltros = !query.trim() && !empresaSeleccionada && !sectorSeleccionado;
+    if (sinFiltros) {
+      return empresasFiltradas.slice(0, empresasAMostrar);
+    }
+    return empresasFiltradas;
+  }, [empresasFiltradas, empresasAMostrar, query, empresaSeleccionada, sectorSeleccionado]);
+
+  const hayMasEmpresas = useMemo(() => {
+    const sinFiltros = !query.trim() && !empresaSeleccionada && !sectorSeleccionado;
+    if (sinFiltros) {
+      return empresasFiltradas.length > empresasAMostrar;
+    }
+    return false;
+  }, [empresasFiltradas, empresasAMostrar, query, empresaSeleccionada, sectorSeleccionado]);
+
+  const verMas = () => {
+    setEmpresasAMostrar(prev => prev + 10);
+  };
 
   if (error) {
     return (
@@ -163,8 +203,8 @@ export default function DirectoryClient({ empresas, error }: Props) {
 
       <div className="gov-banner">
         <Image
-          src={aliadosEstrategicos}
-          alt="Aliados estratégicos"
+          src={logoCorrientesSomosTodos}
+          alt="Corrientes somos todos"
           className="gov-logo"
           priority
         />
@@ -300,8 +340,9 @@ export default function DirectoryClient({ empresas, error }: Props) {
                 <p>No se encontraron empresas con esos filtros.</p>
               </div>
             ) : (
-              <div className="empresas-list">
-                {empresasFiltradas.map((empresa) => (
+              <>
+                <div className="empresas-list">
+                  {empresasMostradas.map((empresa) => (
                   <div key={empresa.id} className="empresa-card">
                     <div className="empresa-content">
                       <div className="empresa-info">
@@ -309,12 +350,16 @@ export default function DirectoryClient({ empresas, error }: Props) {
                           {empresa.empresa || `Empresa #${empresa.id}`}
                         </h3>
                         <div className="empresa-details">
-                          {empresa.direccion && (
+                          {(empresa.direccion || empresa.ciudad) && (
                             <div className="detail-item">
                               <svg width="16" height="16" viewBox="0 0 12 17" fill="none" className="icon">
                                 <path d="M6.74062 15.6887C8.34375 13.7549 12 9.06813 12 6.43557C12 3.24275 9.3125 0.652359 6 0.652359C2.6875 0.652359 0 3.24275 0 6.43557C0 9.06813 3.65625 13.7549 5.25938 15.6887C5.64375 16.1495 6.35625 16.1495 6.74062 15.6887ZM6 4.50783C6.53043 4.50783 7.03914 4.71093 7.41421 5.07245C7.78929 5.43397 8 5.9243 8 6.43557C8 6.94683 7.78929 7.43716 7.41421 7.79868C7.03914 8.1602 6.53043 8.3633 6 8.3633C5.46957 8.3633 4.96086 8.1602 4.58579 7.79868C4.21071 7.43716 4 6.94683 4 6.43557C4 5.9243 4.21071 5.43397 4.58579 5.07245C4.96086 4.71093 5.46957 4.50783 6 4.50783Z" fill="#FF5C00"/>
                               </svg>
-                              <span>{empresa.direccion}</span>
+                              <span>
+                                {empresa.direccion}
+                                {empresa.direccion && empresa.ciudad && ' - '}
+                                {empresa.ciudad}
+                              </span>
                             </div>
                           )}
                           {empresa.telefono && (
@@ -331,6 +376,21 @@ export default function DirectoryClient({ empresas, error }: Props) {
                                 <path d="M15.4062 0.613735C16.2861 0.613735 17 1.30003 17 2.14592C17 2.62793 16.7643 3.0812 16.3625 3.37168L9.1375 8.58112C8.75898 8.85244 8.24102 8.85244 7.8625 8.58112L0.637501 3.37168C0.235743 3.0812 0 2.62793 0 2.14592C0 1.30003 0.713867 0.613735 1.59375 0.613735H15.4062ZM17 4.18884V10.8283C17 11.9551 16.0471 12.8712 14.875 12.8712H2.125C0.95293 12.8712 0 11.9551 0 10.8283V4.18884L7.225 9.39828C7.98203 9.94413 9.01797 9.94413 9.775 9.39828L17 4.18884Z" fill="#FF5C00"/>
                               </svg>
                               <span>{empresa.email}</span>
+                            </div>
+                          )}
+                          {parseProductos(empresa.pa).length > 0 && (
+                            <div className="detail-item" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+                              <div className="flex items-center gap-2 mb-2">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="icon">
+                                  <path d="M2 2H4V14H2V2ZM6 2H14V4H6V2ZM6 6H14V8H6V6ZM6 10H14V12H6V10Z" fill="#FF5C00"/>
+                                </svg>
+                                <span className="font-semibold text-gray-800">Productos:</span>
+                              </div>
+                              <ul className="list-disc list-inside ml-6 space-y-1 mt-1">
+                                {parseProductos(empresa.pa).map((producto, idx) => (
+                                  <li key={idx} className="text-gray-700">{producto}</li>
+                                ))}
+                              </ul>
                             </div>
                           )}
                         </div>
@@ -351,7 +411,18 @@ export default function DirectoryClient({ empresas, error }: Props) {
                     </div>
                   </div>
                 ))}
-              </div>
+                </div>
+                {hayMasEmpresas && (
+                  <div className="flex justify-center mt-6">
+                    <button
+                      onClick={verMas}
+                      className="px-6 py-3 bg-[#0b6623] text-white font-semibold rounded-md hover:bg-[#0a5a1f] transition-colors"
+                    >
+                      Ver más
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

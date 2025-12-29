@@ -11,6 +11,7 @@ interface Empresa {
   ciudad?: string;
   web?: string;
   sector?: string;
+  pa?: string;
   [key: string]: any;
 }
 
