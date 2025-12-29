@@ -97,7 +97,7 @@ export default function RootLayout({
               <ul className="footer-list">
                 <li><a href="https://argentina.ar/" target="_blank" rel="noopener noreferrer">ARGENTINA EXPORTA</a></li>
                 <li><a href="#">GERENCIAMIENTO EXPORTADOR ASOCIATIVO</a></li>
-                <li><a href="#">CAPACITACIONES VIRTUALES</a></li>
+                <li><a href="https://www.youtube.com/c/ExportarTV" target="_blank" rel="noopener noreferrer">CAPACITACIONES VIRTUALES</a></li>
                 <li><a href="#">CAPACITACIÓN PRESENCIAL</a></li>
                 <li><a href="#">RONDA DE NEGOCIOS REGIÓN LITORAL</a></li>
               </ul>
