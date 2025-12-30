@@ -95,11 +95,9 @@ export default function RootLayout({
             <div className="footer-column">
               <h4 className="footer-title">Programas</h4>
               <ul className="footer-list">
-                <li><a href="https://argentina.ar/" target="_blank" rel="noopener noreferrer">ARGENTINA EXPORTA</a></li>
+                <li><a href="https://argentina.ar/es/promargentina/exporta/argentina-exporta" target="_blank" rel="noopener noreferrer">ARGENTINA EXPORTA</a></li>
                 <li><a href="#">GERENCIAMIENTO EXPORTADOR ASOCIATIVO</a></li>
-                <li><a href="https://www.youtube.com/c/ExportarTV" target="_blank" rel="noopener noreferrer">CAPACITACIONES VIRTUALES</a></li>
-                <li><a href="#">CAPACITACIÓN PRESENCIAL</a></li>
-                <li><a href="#">RONDA DE NEGOCIOS REGIÓN LITORAL</a></li>
+                <li><a href="https://www.youtube.com/@ExportarTV" target="_blank" rel="noopener noreferrer">CAPACITACIONES VIRTUALES</a></li>
               </ul>
             </div>
 
