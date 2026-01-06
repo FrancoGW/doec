@@ -110,6 +110,12 @@ export default function DirectoryClient({ empresas, error }: Props) {
     setEmpresasAMostrar(prev => prev + 10);
   };
 
+  const limpiarFiltros = () => {
+    setQuery('');
+    setEmpresaSeleccionada('');
+    setSectorSeleccionado('');
+  };
+
   if (error) {
     return (
       <section className="container">
@@ -192,9 +198,18 @@ export default function DirectoryClient({ empresas, error }: Props) {
                   </select>
                 </label>
 
-                <button className="btn-primary" type="button">
-                  Filtrar búsqueda
-                </button>
+                <div className="filter-buttons">
+                  <button className="btn-primary" type="button">
+                    Filtrar búsqueda
+                  </button>
+                  <button 
+                    className="btn-secondary" 
+                    type="button"
+                    onClick={limpiarFiltros}
+                  >
+                    Borrar filtros
+                  </button>
+                </div>
               </div>
             </form>
           </div>

@@ -369,7 +369,14 @@
   align-items: end;
 }
 
-.filter-row .btn-primary {
+.filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.filter-row .btn-primary,
+.filter-row .btn-secondary {
   white-space: nowrap;
 }
 
@@ -378,8 +385,14 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .filter-row .btn-primary {
+  .filter-buttons {
     grid-column: span 2;
+    width: 100%;
+  }
+
+  .filter-buttons .btn-primary,
+  .filter-buttons .btn-secondary {
+    flex: 1;
   }
 }
 
@@ -434,6 +447,33 @@
 
 .btn-primary:hover {
   background: #f3faf5;
+}
+
+.btn-secondary {
+  border-radius: 5px;
+  border: 1px solid #6b7280;
+  padding: 0.78rem 1.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: #ffffff;
+  color: #6b7280;
+  cursor: pointer;
+  white-space: nowrap;
+  box-sizing: border-box;
+  width: 100%;
+  transition: all 0.2s;
+}
+
+@media (min-width: 641px) {
+  .btn-secondary {
+    width: auto;
+  }
+}
+
+.btn-secondary:hover {
+  background: #f9fafb;
+  border-color: #4b5563;
+  color: #4b5563;
 }
 
 /* Directory Layout con Sidebar */
